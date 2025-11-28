@@ -1,0 +1,37 @@
+/* Aplica estilos base de Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+}
+
+/* Contenedor de la animación (por encima de todo) */
+#clipazo {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* El clon que se va a animar */
+.anim {
+  position: absolute;
+  inset: 0;
+  background-color: #121212;
+  color: white;
+  clip-path: circle(0% at 100% 0); /* esquina superior derecha */
+  animation: clip-reveal 1s ease-in-out forwards;
+  overflow: hidden;
+}
+
+/* Keyframes para expandir el círculo */
+@keyframes clip-reveal {
+  to {
+    clip-path: circle(150% at 100% 0);
+  }
+}

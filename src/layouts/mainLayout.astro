@@ -1,0 +1,237 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script>
+      function initTheme() {
+        const theme = (() => {
+          if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+            return localStorage.getItem('theme');
+          }
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          return 'light';
+        })();
+
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+
+        window.localStorage.setItem('theme', theme);
+      }
+
+      initTheme();
+    </script>
+  </head>
+
+  <body class="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <!-- Animación -->
+    <div id="clipazo"></div>
+    <!-- Contenido principal -->
+    <div id="content">
+      <!-- Header -->
+      <header class="bg-white dark:bg-gray-800 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-16 items-center">
+            <div class="flex-shrink-0">
+              <a href="/" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">MiniRadio</a>
+            </div>
+            <div class="flex items-center space-x-8">
+              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <a href="/" class="text-gray-900 dark:text-gray-100 inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium">
+                  Inicio
+                </a>
+                <a href="/blog" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300 text-sm font-medium">
+                  Blog
+                </a>
+                <a href="/descargar" class="text-gray-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 inline-flex items-center px-1 pt-1 border-b-2 border-transparent hover:border-gray-300 text-sm font-medium">
+                  Descargar
+                </a>
+              </div>
+
+              <!-- Botón de tema -->
+              <button
+                id="theme-toggle"
+                type="button"
+                class="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm p-2.5"
+                aria-label="Cambiar tema"
+              >
+                <!-- Iconos -->
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+                </svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <!-- Main -->
+      <main class="flex-grow">
+        <slot />
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-400 dark:text-gray-500 tracking-wider uppercase">Acerca de</h3>
+              <p class="mt-4 text-base text-gray-500 dark:text-gray-400">
+                MiniRadio - Tu aplicación de radio ligera y rápida para Android.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-400 dark:text-gray-500 tracking-wider uppercase">Enlaces</h3>
+              <ul class="mt-4 space-y-4">
+                <li><a href="/privacidad" class="text-base text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300">Política de Privacidad</a></li>
+                <li><a href="/terminos" class="text-base text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300">Términos de Uso</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-400 dark:text-gray-500 tracking-wider uppercase">Contacto</h3>
+              <ul class="mt-4 space-y-4">
+                <li><a href="mailto:contacto@miniradio.com" class="text-base text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300">contacto@miniradio.com</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-8">
+            <p class="text-base text-gray-400 dark:text-gray-500 text-center">
+              &copy; {new Date().getFullYear()} MiniRadio. Todos los derechos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+
+
+    <!-- Script -->
+    <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    let buttonEnabled = true;
+
+    function updateThemeIcon() {
+      if (document.documentElement.classList.contains('dark')) {
+        themeToggleLightIcon.classList.remove('hidden');
+        themeToggleDarkIcon.classList.add('hidden');
+      } else {
+        themeToggleLightIcon.classList.add('hidden');
+        themeToggleDarkIcon.classList.remove('hidden');
+      }
+    }
+
+    updateThemeIcon();
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (!buttonEnabled) return;
+      buttonEnabled = false;
+
+      const content = document.getElementById("content");
+      const clip = document.getElementById("clipazo");
+      const isDark = document.documentElement.classList.contains("dark");
+
+      // Quitar temporalmente 'dark' del <html> para ver diferencia
+      document.documentElement.classList.remove("dark");
+
+      // Clon del contenido
+      const clone = content.cloneNode(true);
+
+      // 1. Estilo inicial antes de añadir clase anim
+clone.style.clipPath = "circle(0% at 100% 0)";
+clone.style.position = "absolute";
+clone.style.inset = "0";
+clone.style.zIndex = "10000";
+clone.style.transition = "none"; // sin transición por ahora
+
+
+
+      // DEBUG VISUAL
+        clone.style.border = "2px dashed red";
+        clone.style.backgroundColor = "rgba(255, 255, 0, 0.1)";
+        clone.style.outline = "2px solid magenta";
+        clone.style.opacity = "1";
+        clone.style.zIndex = "10000";
+        clone.style.pointerEvents = "auto";
+
+        // Forzar reflow por seguridad
+        void clone.offsetWidth;
+
+        // Log para comprobar el estado real
+        console.log("Animación lanzada. ¿Está en DOM?", document.getElementById("clipazo").contains(clone));
+        console.log("Clase dark aplicada al clon:", clone.classList.contains("dark"));
+        console.log("Clase anim aplicada al clon:", clone.classList.contains("anim"));
+
+       requestAnimationFrame(() => {
+          clone.classList.add("anim");
+
+          clone.addEventListener("animationstart", () => {
+            console.log("🎬 Animación de clip-path INICIADA");
+          });
+
+          clone.addEventListener("animationend", () => {
+            console.log("✅ Animación de clip-path FINALIZADA");
+          });
+        });
+
+
+
+      // Aplicamos la clase dark al clon solo si vamos a modo oscuro
+      if (!isDark) {
+        clone.classList.add("dark");
+      }
+
+
+
+      clip.innerHTML = "";
+      clip.appendChild(clone);
+
+      // Forzar reflow
+      void clone.offsetWidth;
+
+      // Bloqueamos scroll
+      document.documentElement.style.overflow = "hidden";
+
+
+      
+
+
+      setTimeout(() => {
+        // Aplicamos el nuevo tema real
+        if (!isDark) {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          localStorage.setItem("theme", "light");
+        }
+
+        clip.innerHTML = "";
+        document.documentElement.style.overflow = "";
+        updateThemeIcon();
+        buttonEnabled = true;
+      }, 1000);
+    });
+
+    </script>
+  </body>
+</html>
